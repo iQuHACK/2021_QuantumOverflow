@@ -347,8 +347,7 @@ def QuantumCryptography():
           "a key = [0111001] and a Quantum circuit for you to measure"+
            "For  basis[i]=0  (i.e., if the  ith  bit is zero), she encodes"+
            " the ith  qubit in the standard  {|0>,|1>} basis, while for  basis[i]=1,"+
-           "she encodes it in the  {|+⟩,|−⟩}. Now, you can create a basis for you"
-           )
+           "she encodes it in the  {|+⟩,|−⟩}. Now, you can create a basis for you")
     # message encoded
     qc = qk.QuantumCircuit(7,7)
     qc.h(0)
