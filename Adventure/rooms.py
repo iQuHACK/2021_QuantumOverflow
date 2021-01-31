@@ -308,7 +308,7 @@ def describeMeasurement():
 #     """
 # We need to actually measure our qubit using qiskit, and then use some print statements and the setState(newState)
 # command to describe the result to the player
-    pass
+    print("The light flickers and the laser now points clearly along one direction. ")
         
 
 def stillSameState():
