@@ -2,13 +2,25 @@
 import qiskit as qk
 from qiskit.quantum_info import Statevector
 from qiskit.visualization import plot_state_qsphere
+from qiskit.providers.jobstatus import JobStatus
 
 from qiskit_ionq_provider import IonQProvider 
 from qiskit.providers import aer
 
+import os, sys, itertools
+from dotenv import load_dotenv
+
+load_dotenv()
+
+IONQ_API_KEY = os.getenv('IONQ_API_KEY')
+
+# Used to print spinning animation
+spinner = itertools.cycle(['-', '/', '|', '\\'])
+
 #Call provider and set token value
-provider = IonQProvider(token='My token')
-backend = aer.QasmSimulator()
+provider = IonQProvider(token=IONQ_API_KEY)
+simulator = provider.get_backend("ionq_simulator")
+qpu = provider.get_backend("ionq_qpu")
 orbSimpleState = "PosZ"
 
 def introRoomStart():
@@ -200,22 +212,29 @@ def goingToQuantumRealm():
     while portalOpen:
         action = input("What do you do?")
         if "enter" in action:
+            print("Two more orbs appear in front of you! Their colour changes rapidly between different shades of red "
+                  "and blue. You wait for them to settle down...")
             qc = qk.QuantumCircuit(2,2)
             qc.h([0,1])
             qc.measure([0,1],[0,1])
-            result = qk.execute(qc, backend, shots=1).result().get_counts()
-            for i in result.keys():
-                if i == '00':
-                    room1()
-                elif i == '01':
-                    room2()
-                elif i == '10':
-                    room3()
-                elif i == '11':
-                    room4()
-                else:
-                    print("Error")
-                    
+            job = qpu.run(qc, shots=1)
+            while job.status() is not JobStatus.DONE:
+                sys.stdout.write(next(spinner))
+                sys.stdout.flush()
+                sys.stdout.write('\b')
+            counts = job.result().get_counts()
+            q0, q1 = list(list(counts.keys())[0])
+            print(f"The first orb settles to {'red' if q0 == '0' else 'blue'}, "
+                  f"and the second orb settles to {'red' if q1 == '0' else 'blue'}.")
+            if q0 == '0' and q1 == '0':
+                room1()
+            elif q0 == '0' and q1 == '1':
+                room2()
+            elif q1 == '0':
+                room3()
+            else:
+                room4()
+
 def room1():
     print("Room 1")
 def room2():
