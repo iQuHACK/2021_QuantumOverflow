@@ -40,10 +40,7 @@ The GitHub repository link is [https://github.com/iQuHACK/2021_QuantumOverflow](
 
 ## Highlights:
 
-
-
-*   In our game, the result is quantum. No one knows the results until the measurement.
-*    Player can increase their probability of winning, but nothing is guaranteed.
-*   During the game, two players are building a quantum circuit together. They try interfering with the result of the entangled qubits to something they desire.
-*   In the game, we applied Quantum Random Number Generator to find the type and place of gates. The speeds of Quhacmans change with entangled two qubits circuit.
-*   The rule and strategy are quantum. We use Bloch sphere as a win indicator.
+* The game requires no prior knowledge of quantum phenomena or quantum computing math, but leaves the player with an intuition for both.
+* We think our visualizations are very intuitive.
+* Because the game is text-based, the queue waiting time on the quantum computer does not significantly affect gameplay. 
+* When the player uses superposition, the BB84 QKD algorithm, or quantum teleportation, their circuits actually run on a quantum computer or simulator.
