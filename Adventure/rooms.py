@@ -45,14 +45,14 @@ def introRoomStart():
         action = input("What do you do? ")
         if "look" in action:
             print("The orb seems to be waiting for you to touch it. ")
-            qc = qk.QuantumCircuit(2,2)
-            qc.h(0)
-            qc.cx(0,1)
+            #qc = qk.QuantumCircuit(2,2)
+            #qc.h(0)
+            #qc.cx(0,1)
             # fig = qc.draw('mpl')
             # fig.show()
-            state = Statevector.from_instruction(qc)
-            fig2 = plot_state_qsphere(state)
-            fig2.show()
+            #state = Statevector.from_instruction(qc)
+            #fig2 = plot_state_qsphere(state)
+            #fig2.show()
         elif "touch" in action:
             introRoomExplainOrb()
         elif "quit" in action:
