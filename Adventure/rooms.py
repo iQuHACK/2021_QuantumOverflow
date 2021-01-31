@@ -5,6 +5,7 @@ from qiskit.visualization import plot_state_qsphere
 
 from qiskit_ionq_provider import IonQProvider 
 from qiskit.providers import aer
+import numpy as np
 
 #Call provider and set token value
 provider = IonQProvider(token='My token')
@@ -291,8 +292,60 @@ def setState(newState):
     orbSimpleState = newState
     
     
-def room1():
-    print("Room 1")
+def QuantumCryptography():
+    print("Alice was here and leaved you a message on a BB84 protocol" +
+          "a key = [0111001] and a Quantum circuit for you to measure"+
+           "For  basis[i]=0  (i.e., if the  ith  bit is zero), she encodes"+
+           " the ith  qubit in the standard  {|0>,|1>} basis, while for  basis[i]=1,"+
+           "she encodes it in the  {|+⟩,|−⟩}. Now, you can create a basis for you"
+           )
+    # message encoded
+    qc = qk.QuantumCircuit(7,7)
+    qc.h(0)
+    qc.h(1)
+    qc.z(1)
+    qc.x(2)
+    qc.h(3)
+    qc.z(3)
+    qc.x(6)
+    return qc
+    
+def room1(qc = None):
+    basis_Alice = [1101000]
+    print("The portal conducted you to the Quantum Cryptography room"+
+          "Someone was here some time ago and leave a box with a message" + 
+          "There is a button called measure and 4 spaces for a key.")
+    while True:
+        action = input("What do you do?")
+        if "look" in action:
+            qc = QuantumCryptography()
+        elif 'measure' in action:
+            if qc != None:
+                basis = [np.random.randint(0,2) for i in range(7)]
+                for n, i in enumerate(basis):
+                    if i == 1:
+                        qc.h(n) # To measure in |-⟩,|+⟩
+                qc.measure(range(7),range(7))
+                job = qk.execute(qc,backend, shots=1000)
+                results = job.result().get_counts()
+                print("The measurement gives you the following outcome: ")
+                print(results)
+            else:
+                print("you should look the message first!")
+        elif "key" in action:
+            while True:
+                key = input("Please introduce the key.")
+                if key == "0110":
+                    print("Awesome, you got the correct key. You complete this"+
+                          "Room")
+                    goingToQuantumRealm()
+                else:
+                    print("Sorry, wrong key. Try again")
+                    room1(qc)
+        elif "quit" in action:
+            break
+        else:
+            print("Action not recognized. What would you like to do?")
 def room2():
     print("Room 2")
 def room3():
