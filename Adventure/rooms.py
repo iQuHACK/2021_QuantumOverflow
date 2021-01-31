@@ -114,7 +114,7 @@ def introRoomObtainRemote():
         action = input("What do you do?")
         if "instructions" in action:
             describeInstructions()
-        if ["X","Z","H","M","CNOT"] in action:
+        if any(x in action for x in ["X","Z","H","M","CNOT"]):
             useRemote(action)
         # if "X" in action:
         #     describeXTransformation()
@@ -158,11 +158,12 @@ def goingToQuantumRealm():
             qc = qk.QuantumCircuit(2,2)
             qc.h([0,1])
             qc.measure([0,1],[0,1])
-            job = backend.run(qc, shots=1)
-            while job.status() is not JobStatus.DONE:
-                sys.stdout.write(next(spinner))
-                sys.stdout.flush()
-                sys.stdout.write('\b')
+            job = qk.execute(qc, backend, shots=1)
+            # job = backend.run(qc, shots=1)
+            # while job.status() is not JobStatus.DONE:
+            #     sys.stdout.write(next(spinner))
+            #     sys.stdout.flush()
+            #     sys.stdout.write('\b')
             counts = job.result().get_counts()
             q0, q1 = list(list(counts.keys())[0])
             print(f"The first orb settles to {'red' if q0 == '0' else 'blue'}, "
