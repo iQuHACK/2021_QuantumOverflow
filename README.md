@@ -1,11 +1,3 @@
-Having a README in your team's repository facilitates judging. A good README contains:
-* a clear title for your project,
-* a short abstract,
-* the motivation/goals for your project,
-* a description of the work you did, and
-* proposals for future work.
-
-
 # Colossal Quantum Adventure: An educational quantum text-based game
 
 Miasya Bulger, Corbin McElhanney, Matthew Mikhailov, Alejandro Montanez, Ben Sachs.
