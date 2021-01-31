@@ -378,8 +378,10 @@ def room1(qc = None):
                 qc.measure(range(7),range(7))
                 job = qk.execute(qc,backend, shots=1000)
                 results = job.result().get_counts()
-                print("The measurement gives you the following outcome: ")
+                print("1000 measurements on your qubit gives you the following outcome: ")
                 print(results)
+                print("Try to think in individual qubits and how is the outcome if you and Alice"+
+                      "are in the same basis")
             else:
                 print("you should look the message first!")
         elif "key" in action:
