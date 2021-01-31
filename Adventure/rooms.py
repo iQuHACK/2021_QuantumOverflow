@@ -111,9 +111,6 @@ def introRoomObtainRemote():
             describeInstructions()
         if ["X","Z","H","M","CNOT"] in action:
             useRemote(action)
-            
-        #if Q0 == "H" and Q1 == "X":
-        #    goingToQuantumRealm()
         # if "X" in action:
         #     describeXTransformation()
         #     XPressed = True     
@@ -135,7 +132,11 @@ def describeInstructions():
           " H                   H \n" +
           " |                   | \n" +
           "|+> ------ Z ------ |-> \n \n")
-    
+
+    print("A taped-on scrap of paper says \"This remote control would take you to the Quantum Realm. " +
+          "In order to get there you should create a superposition state |-> for your qubit. " + 
+          "The qubit will start at |0>.\"")
+
     print("A taped-on scrap of paper says \"This remote control would take you to the Quantum Realm. " +
           "In order to get there you should create a superposition state |-> for your qubit. " + 
           "The qubit will start at |0>.\"")
@@ -171,6 +172,31 @@ def goingToQuantumRealm():
                 room4()
 
     
+def useRemote(action):
+    #
+    # Helper method to process gate and measurement commands
+    #
+    if "X" in action:
+        describeXTransformation()
+    elif "Z" in action:
+        describeZTransformation()
+    elif "H" in action:
+        describeHTransformation()
+    elif "CNOT" in action:
+        describeCNOTTransformation()
+    elif "M" in action:
+        describeMeasurement()
+    else:
+        print("Action not recognized. What would you like to do?")
+
+
+# def describeCurrentSimpleState():
+#     """
+#     Helper method to remind user where the laser is pointing
+#     """
+#     print("You flip the switch and the laser within the orb shines brightly.")
+
+                    
 def useRemote(action):
     #
     # Helper method to process gate and measurement commands
