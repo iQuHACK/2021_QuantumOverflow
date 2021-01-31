@@ -1,9 +1,7 @@
-# Tutorial room where they enter a lab and see an orb and remote, i.e. Bloch Sphere
 import qiskit as qk
 from qiskit.quantum_info import Statevector
 from qiskit.visualization import plot_state_qsphere
 from qiskit.providers.jobstatus import JobStatus
-
 from qiskit_ionq_provider import IonQProvider 
 from qiskit.providers import aer
 import numpy as np
@@ -30,7 +28,6 @@ orbSimpleState = "Zero"
 orbEntangled = False
 orbWireConnected = False
 orb2State = "Zero"
-
 
 def introRoomStart():
     #
@@ -96,8 +93,6 @@ def introRoomExplainOrb():
         else:
             print("Action not recognized. ")
 
-
-
 def introRoomObtainRemote():
     #
     # Description of the remote and what it can do
@@ -116,18 +111,6 @@ def introRoomObtainRemote():
             describeInstructions()
         if any(x in action for x in ["X","Z","H","M","CNOT"]):
             useRemote(action)
-        # if "X" in action:
-        #     describeXTransformation()
-        #     XPressed = True     
-        # elif "H" in action:
-        #     describeHTransformation()
-        #     HPressed = True
-        # elif "switch" in action:
-        #     describeCurrentSimpleState()
-        # elif "press" in action:
-        #     introRoomObtainRemote()
-        # else:
-        #     print("Action not recognized. What would you like to do?")
         
 def describeInstructions():
     print("The instructions say \"Up: |0>, Down: |1>, Forward: |->, Back: |+>. Blur: Unknown\". " +
@@ -146,7 +129,6 @@ def describeInstructions():
           "In order to get there you should create a superposition state |-> for your qubit. " + 
           "The qubit will start at |0>.\"")
     
-
 def goingToQuantumRealm():
     print("An Inter-dimensional portal just open!")
     portalOpen = True
@@ -159,11 +141,6 @@ def goingToQuantumRealm():
             qc.h([0,1])
             qc.measure([0,1],[0,1])
             job = qk.execute(qc, backend, shots=1)
-            # job = backend.run(qc, shots=1)
-            # while job.status() is not JobStatus.DONE:
-            #     sys.stdout.write(next(spinner))
-            #     sys.stdout.flush()
-            #     sys.stdout.write('\b')
             counts = job.result().get_counts()
             q0, q1 = list(list(counts.keys())[0])
             print(f"The first orb settles to {'red' if q0 == '0' else 'blue'}, "
@@ -177,7 +154,6 @@ def goingToQuantumRealm():
             else:
                 room4()
 
-    
 def useRemote(action):
     #
     # Helper method to process gate and measurement commands
@@ -194,15 +170,7 @@ def useRemote(action):
         describeMeasurement()
     else:
         print("Action not recognized. What would you like to do?")
-
-
-# def describeCurrentSimpleState():
-#     """
-#     Helper method to remind user where the laser is pointing
-#     """
-#     print("You flip the switch and the laser within the orb shines brightly.")
-
-                    
+                  
 def useRemote(action):
     #
     # Helper method to process gate and measurement commands
@@ -219,15 +187,7 @@ def useRemote(action):
         describeMeasurement()
     else:
         print("Action not recognized. What would you like to do?")
-
-
-# def describeCurrentSimpleState():
-#     """
-#     Helper method to remind user where the laser is pointing
-#     """
-#     print("You flip the switch and the laser within the orb shines brightly.")
-
-                    
+               
 def describeXTransformation():
 #     """
 #     Helper method to describe transformation of X gate on laser
@@ -300,8 +260,6 @@ def describeCNOTTransformation(controlBit):
             else:
                 print("The switch only has \"this\" and \"other\"")
             
-    
-    
 def describeMeasurement():
 #     """
 #     TODO: Please help me write this
@@ -310,7 +268,6 @@ def describeMeasurement():
 # command to describe the result to the player
     print("The light flickers and the laser now points clearly along one direction. ")
         
-
 def stillSameState():
     if orbSimpleState in ["Zero","One","Plus","Minus"]:
         print("The orb is still in the \"" + orbSimpleState + "\" state. ")
@@ -341,7 +298,6 @@ def setState(newState):
     else:
         print("ERROR: State not recognized")
     orbSimpleState = newState
-    
     
 def QuantumCryptography():
     print("Alice was here and leaved you a message on a BB84 protocol" +
@@ -404,12 +360,4 @@ def room3():
     print("Room 3")
 def room4():
     print("Room 4")
-            
-            
-            
-            
-            
-        
-# TODO: Next steps is they leave the labratory.
-# And they have an "are you sure?" since the orb will lose power to always show laser
-# and now the switch will show them the position before converging to a measured state
+      
