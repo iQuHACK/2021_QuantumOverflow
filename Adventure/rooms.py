@@ -14,18 +14,23 @@ from dotenv import load_dotenv
 load_dotenv()
 
 IONQ_API_KEY = os.getenv('IONQ_API_KEY')
+BACKEND = os.getenv('BACKEND')
 
 # Used to print spinning animation
 spinner = itertools.cycle(['-', '/', '|', '\\'])
 
-#Call provider and set token value
+# Call provider and set token value
 provider = IonQProvider(token=IONQ_API_KEY)
-simulator = provider.get_backend("ionq_simulator")
-qpu = provider.get_backend("ionq_qpu")
+if BACKEND == 'QasmSimulator':
+    backend = aer.QasmSimulator()
+else:
+    backend = provider.get_backend(BACKEND)
+
 orbSimpleState = "Zero"
 orbEntangled = False
 orbWireConnected = False
 orb2State = "Zero"
+
 
 def introRoomStart():
     #
@@ -105,7 +110,7 @@ def introRoomObtainRemote():
           "and there is a switch labeled \"control\" with the options \"this\" and \"other\". " +
           "There are instructions on the back of the remote. ")    
     
-    while orbSimpleState is not "Minus":
+    while orbSimpleState != "Minus":
         action = input("What do you do?")
         if "instructions" in action:
             describeInstructions()
@@ -153,7 +158,7 @@ def goingToQuantumRealm():
             qc = qk.QuantumCircuit(2,2)
             qc.h([0,1])
             qc.measure([0,1],[0,1])
-            job = qpu.run(qc, shots=1)
+            job = backend.run(qc, shots=1)
             while job.status() is not JobStatus.DONE:
                 sys.stdout.write(next(spinner))
                 sys.stdout.flush()
@@ -227,9 +232,9 @@ def describeXTransformation():
 #     Helper method to describe transformation of X gate on laser
 #     """
     print("The orb makes a whirring sound, and the inside of the orb rotates 180 degrees clockwise, like a rolling ball. ") 
-    if orbSimpleState is "Zero":
+    if orbSimpleState == "Zero":
         setState("One")
-    elif orbSimpleState is "One":
+    elif orbSimpleState == "One":
         setState("Zero")
     else:
         rotateSameState()
@@ -239,9 +244,9 @@ def describeZTransformation():
 #     Helper method to describe transformation of Z gate on laser
 #     """
     print("The orb makes a whirring sound, and the inside of the orb rotates 180 degrees facing up, like a spinning basketball. ") 
-    if orbSimpleState is "Plus":
+    if orbSimpleState == "Plus":
         setState("Minus")
-    elif orbSimpleState is "Minus":
+    elif orbSimpleState == "Minus":
         setState("Plus")
     else:
         rotateSameState()
@@ -251,13 +256,13 @@ def describeHTransformation():
 #     Helper method to describe transformation of X gate on laser
 #     """
     print("The orb makes a whirring sound, and the inside does a clever diagonal rotation. ") 
-    if orbSimpleState is "Zero":
+    if orbSimpleState == "Zero":
         setState("Plus")
-    elif orbSimpleState is "Plus":
+    elif orbSimpleState == "Plus":
         setState("Zero")
-    elif orbSimpleState is "One":
+    elif orbSimpleState == "One":
         setState("Minus")
-    elif orbSimpleState is "Minus":
+    elif orbSimpleState == "Minus":
         setState("One")
     else:
         rotateSameState()
@@ -275,7 +280,7 @@ def describeCNOTTransformation(controlBit):
             if "this" in order:
                 print("The light in your orb flickers, but the inside of your orb does not move. ")
                 stillSameState()
-                if orb2State is not "Unknown":
+                if orb2State != "Unknown":
                     print("However, the other orb, connected by wire, has become blurred. ")
                 else:
                     print("The other orb is still blurred. ")
@@ -285,7 +290,7 @@ def describeCNOTTransformation(controlBit):
             elif "other" in order:
                 print("The light in your orb flickers. ")
                 setState("Unknown")
-                if orb2State is not "Unknown":
+                if orb2State != "Unknown":
                     print("The other orb does not move, and it is still in the \"" + orb2State + "\" state. ")
                 else:
                     print("The other orb does not move, and it is still blurred. ")
@@ -302,12 +307,13 @@ def describeMeasurement():
 #     """
 # We need to actually measure our qubit using qiskit, and then use some print statements and the setState(newState)
 # command to describe the result to the player
+    pass
         
 
 def stillSameState():
     if orbSimpleState in ["Zero","One","Plus","Minus"]:
         print("The orb is still in the \"" + orbSimpleState + "\" state. ")
-    elif orbSimpleState is "Unknown":
+    elif orbSimpleState == "Unknown":
         print("The light in the orb is still blurred, and you still cannot tell the state. ")
     else:
         print("ERROR: State not recognized")
@@ -315,21 +321,21 @@ def stillSameState():
 def rotateSameState():
     if orbSimpleState in ["Zero","One","Plus","Minus"]:
         print("The internal laser beam turns on its axis, and it is still in the \"" + orbSimpleState + "\" state. ")
-    elif orbSimpleState is "Unknown":
+    elif orbSimpleState == "Unknown":
         print("The light in the orb is still blurred, and you still cannot tell the state. ")
     else:
         print("ERROR: State not recognized")
     
 def setState(newState):
-    if newState is "One":
+    if newState == "One":
         print("The internal laser beam is now pointing directly downwards, to the \"One\" state. ")
-    elif newState is "Zero":
+    elif newState == "Zero":
         print("The internal laser beam is now pointing directly upwards, to the \"Zero\" state. ")
-    elif newState is "Plus":
+    elif newState == "Plus":
         print("The internal laser beam is now pointing towards you, to the \"Plus\" state. ")
-    elif newState is "Minus":
+    elif newState == "Minus":
         print("The internal laser beam is now pointing away from you, to the \"Minus\" state. ")
-    elif newState is "Unknown":
+    elif newState == "Unknown":
         print("The laser light is now blurred, and you cannot tell the state.")
     else:
         print("ERROR: State not recognized")
