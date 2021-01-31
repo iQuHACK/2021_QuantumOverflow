@@ -98,9 +98,10 @@ def introRoomObtainRemote():
             describeInstructions()
         if ["X","Z","H","M","CNOT"] in action:
             useRemote(action)
+    print("The ")
             
         #if Q0 == "H" and Q1 == "X":
-        #    goingToQuantumRealm()
+        #                         goingToQuantumRealm()
         # if "X" in action:
         #     describeXTransformation()
         #     XPressed = True     
